@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAST SEED</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1>LAST SEED</h1>
+            <p>Use W A S D to move. Pick up yellow seeds and place them on black blocks.</p>
+        </header>
+        <canvas id="gameCanvas"></canvas>
+        <div id="accomplishment" class="hidden">
+            <div class="cloud">
+                <p>You helped Earth become more solarpunk!</p>
+            </div>
+        </div>
+        <div id="gameover-ui" class="hidden">
+            <h1 style="color: red; margin-bottom: 20px;">Game Over</h1>
+            <button onclick="restartGame(1)">Restart Level 1</button>
+            <button id="btn-restart-lvl2" onclick="restartGame(2)">Restart Level 2 (Checkpoint)</button>
+        </div>
+        <div id="start-screen-ui">
+            <h1>LAST SEED</h1>
+            <p>Humanity tried creating cyberpunk on the name of advancing technology but it eventually break out of the cage and started conquring humanity by taking control over nature. Your role here is to save humanity by doing good deeds and eliminate the clankers.</p>
+            <button onclick="startGame()">Start Game</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
