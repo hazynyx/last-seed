@@ -108,7 +108,6 @@ const sfxAttack = new Audio('musics/attack.mp3');
 const sfxHurt = new Audio('musics/hurt.mp3');
 const sfxDead = new Audio('musics/dead.mp3');
 const sfxItem = new Audio('musics/item-placing.wav');
-const sfxWin = new Audio('musics/win.mp3');
 
 function playSound(audioEl) {
     let clone = audioEl.cloneNode();
@@ -224,7 +223,6 @@ function restartGame(level) {
     document.getElementById('gameover-ui').classList.add('hidden');
     document.getElementById('accomplishment').classList.add('hidden');
     
-    confetti = [];
     bgMusic.currentTime = 0;
     bgMusic.play().catch(e => console.log(e));
     
@@ -262,33 +260,8 @@ function restartGame(level) {
 
 window.restartGame = restartGame;
 
-let confetti = [];
-function createConfetti() {
-    for (let i = 0; i < 200; i++) {
-        confetti.push({
-            x: canvas.width / 2,
-            y: canvas.height / 2,
-            vx: (Math.random() - 0.5) * 20,
-            vy: (Math.random() - 0.5) * 20 - 10,
-            size: Math.random() * 8 + 4,
-            color: `hsl(${Math.random() * 360}, 100%, 50%)`,
-            life: 1.0
-        });
-    }
-}
-
 function update() {
-    if (gameState === STATES.GAMEOVER || gameState === STATES.START_SCREEN) return;
-
-    if (gameState === STATES.LVL2_VICTORY) {
-        for (let c of confetti) {
-            c.x += c.vx;
-            c.y += c.vy;
-            c.vy += 0.4; // gravity
-            c.life -= 0.005;
-        }
-        return;
-    }
+    if (gameState === STATES.GAMEOVER || gameState === STATES.LVL2_VICTORY || gameState === STATES.START_SCREEN) return;
 
     // Player Regen
     regenTimer++;
@@ -523,9 +496,6 @@ function update() {
                 playSound(sfxAttack);
                 if (boss.hp <= 0) {
                     gameState = STATES.LVL2_VICTORY;
-                    bgMusic.pause();
-                    playSound(sfxWin);
-                    createConfetti();
                     const acc = document.getElementById('accomplishment');
                     acc.innerHTML = '<div class="cloud"><p>VICTORY! You cleaned the room, defeated the boss, and saved Solarpunk Earth!</p></div>';
                     acc.classList.remove('hidden');
@@ -943,17 +913,6 @@ function draw() {
     }
 
     drawHUD();
-
-    if (gameState === STATES.LVL2_VICTORY) {
-        for (let c of confetti) {
-            if (c.life > 0) {
-                ctx.globalAlpha = Math.max(0, c.life);
-                ctx.fillStyle = c.color;
-                ctx.fillRect(c.x, c.y, c.size, c.size);
-            }
-        }
-        ctx.globalAlpha = 1.0;
-    }
 }
 
 function loop() {
